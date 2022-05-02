@@ -16,4 +16,31 @@ const deleteHero = id => ({
 	payload: id,
 });
 
-export { heroesFetching, heroesFetched, heroesFetchingError, deleteHero };
+const createHero = hero => ({
+	type: 'CREATE_HERO',
+	payload: hero,
+});
+
+const filtersFetching = () => ({
+	type: 'FILTERS_FETCHING',
+});
+
+const filtersFetched = filters => ({
+	type: 'FILTERS_FETCHED',
+	payload: filters,
+});
+
+const filtersFetchingError = () => ({
+	type: 'FILTERS_FETCHING_ERROR',
+});
+
+export {
+	heroesFetching,
+	heroesFetched,
+	heroesFetchingError,
+	deleteHero,
+	createHero,
+	filtersFetching,
+	filtersFetched,
+	filtersFetchingError,
+};

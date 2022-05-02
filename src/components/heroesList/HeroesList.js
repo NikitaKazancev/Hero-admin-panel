@@ -7,8 +7,7 @@ import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
 	const { heroes, heroesLoadingStatus } = useSelector(state => state);
-	const dispatch = useDispatch();
-	const { getHeroes, deleteHero } = useHeroServer(dispatch);
+	const { getHeroes, deleteHero } = useHeroServer(useDispatch());
 
 	useEffect(
 		getHeroes,

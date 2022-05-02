@@ -13,7 +13,11 @@ export const useHttp = () => {
 			// setProcess('loading');
 
 			try {
-				const response = await fetch(url, { method, body, headers });
+				const response = await fetch(url, {
+					method,
+					body: body ? JSON.stringify(body) : null,
+					headers,
+				});
 
 				if (!response.ok) {
 					throw new Error(

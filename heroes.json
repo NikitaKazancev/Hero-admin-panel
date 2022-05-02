@@ -19,5 +19,11 @@
 			"element": "water"
 		}
 	],
-	"filters": ["all", "fire", "water", "wind", "earth"]
+	"filters": [
+		{ "name": "all", "label": "Все" },
+		{ "name": "fire", "label": "Огонь" },
+		{ "name": "water", "label": "Вода" },
+		{ "name": "wind", "label": "Ветер" },
+		{ "name": "earth", "label": "Земля" }
+	]
 }

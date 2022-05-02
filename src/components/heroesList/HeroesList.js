@@ -1,28 +1,20 @@
-import { useHttp } from '../../hooks/http.hook';
+import useHeroServer from '../../services/HeroServer';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-	heroesFetching,
-	heroesFetched,
-	heroesFetchingError,
-} from '../../redux/actions';
 import HeroesListItem from '../heroesListItem/HeroesListItem';
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
 	const { heroes, heroesLoadingStatus } = useSelector(state => state);
 	const dispatch = useDispatch();
-	const { request } = useHttp();
+	const { getHeroes, deleteHero } = useHeroServer(dispatch);
 
-	useEffect(() => {
-		dispatch(heroesFetching());
-		request('http://localhost:3001/heroes')
-			.then(data => dispatch(heroesFetched(data)))
-			.catch(() => dispatch(heroesFetchingError()));
-
+	useEffect(
+		getHeroes,
 		// eslint-disable-next-line
-	}, []);
+		[]
+	);
 
 	if (heroesLoadingStatus === 'loading') {
 		return <Spinner />;
@@ -36,7 +28,13 @@ const HeroesList = () => {
 		}
 
 		return arr.map(({ id, ...props }) => {
-			return <HeroesListItem key={id} {...props} />;
+			return (
+				<HeroesListItem
+					key={id}
+					{...props}
+					deleteHero={() => deleteHero(id)}
+				/>
+			);
 		});
 	};
 

@@ -4,7 +4,7 @@ import useHeroServer from '../../services/HeroServer';
 import { setActiveFilter } from '../../redux/actions';
 
 const HeroesFilters = () => {
-	const { filters, activeFilter } = useSelector(state => state);
+	const { filters, activeFilter } = useSelector(state => state.filtersReducer);
 	const dispatch = useDispatch();
 	const { getFilters } = useHeroServer(dispatch);
 

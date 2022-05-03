@@ -20,7 +20,7 @@ const HeroesListItem = ({ name, description, element, deleteHero }) => {
 
 	return (
 		<li
-			className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}
+			className={`card flex-row mb-4 shadow-lg text-white ${elementClassName} fade-transition`}
 		>
 			<img
 				src='http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg'

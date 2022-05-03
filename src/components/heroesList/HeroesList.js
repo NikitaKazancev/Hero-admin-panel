@@ -1,21 +1,25 @@
 import useHeroServer from '../../services/HeroServer';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import HeroesListItem from '../heroesListItem/HeroesListItem';
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-	const { heroes, heroesLoadingStatus, activeFilter } = useSelector(
-		state => state
+	const heroes = useSelector(({ heroesReducer, filtersReducer }) => {
+		if (filtersReducer.activeFilter === 'all') return heroesReducer.heroes;
+		return heroesReducer.heroes.filter(
+			hero => hero.element === filtersReducer.activeFilter
+		);
+	});
+	const heroesLoadingStatus = useSelector(
+		state => state.heroesReducer.heroesLoadingStatus
 	);
+
 	const { getHeroes, deleteHero } = useHeroServer(useDispatch());
 
-	useEffect(
-		getHeroes,
-		// eslint-disable-next-line
-		[]
-	);
+	useEffect(getHeroes, []);
 
 	if (heroesLoadingStatus === 'loading') {
 		return <Spinner />;
@@ -23,29 +27,32 @@ const HeroesList = () => {
 		return <h5 className='text-center mt-5'>Ошибка загрузки</h5>;
 	}
 
-	const filterHeroes = (heroes, filter) =>
-		heroes.filter(({ element }) => element === filter);
-
-	const renderHeroesList = (arr, filter) => {
-		if (filter !== 'all') arr = filterHeroes(arr, filter);
-
+	const renderHeroesList = arr => {
 		if (arr.length === 0) {
-			return <h5 className='text-center mt-5'>Героев пока нет</h5>;
+			return (
+				<CSSTransition timeout={0} classNames='fade-transition'>
+					<h5 className='text-center mt-5'>Героев пока нет</h5>
+				</CSSTransition>
+			);
 		}
 
 		return arr.map(({ id, ...props }) => {
 			return (
-				<HeroesListItem
+				<CSSTransition
 					key={id}
-					{...props}
-					deleteHero={() => deleteHero(id)}
-				/>
+					timeout={500}
+					classNames={'fade-transition'}
+					mountOnEnter
+					unmountOnExit
+				>
+					<HeroesListItem {...props} deleteHero={() => deleteHero(id)} />
+				</CSSTransition>
 			);
 		});
 	};
 
-	const elements = renderHeroesList(heroes, activeFilter);
-	return <ul>{elements}</ul>;
+	const elements = renderHeroesList(heroes);
+	return <TransitionGroup component='ul'>{elements}</TransitionGroup>;
 };
 
 export default HeroesList;

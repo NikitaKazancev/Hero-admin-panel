@@ -45,7 +45,11 @@ const HeroesAddForm = () => {
 							content = label;
 							if (name === 'all') content = 'Я владею элементом...';
 							return (
-								<option key={i} value={name}>
+								<option
+									key={i}
+									value={name}
+									// onClick={e => setElement(e.target.value)}
+								>
 									{content}
 								</option>
 							);
@@ -54,7 +58,7 @@ const HeroesAddForm = () => {
 				</>
 			);
 		},
-		[filters, filtersLoadingStatus]
+		[filters, filtersLoadingStatus, element]
 	);
 
 	useEffect(getFilters, []);

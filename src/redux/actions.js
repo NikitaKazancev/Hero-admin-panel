@@ -34,6 +34,11 @@ const filtersFetchingError = () => ({
 	type: 'FILTERS_FETCHING_ERROR',
 });
 
+const setActiveFilter = name => ({
+	type: 'SET_ACTIVE_FILTER',
+	payload: name,
+});
+
 export {
 	heroesFetching,
 	heroesFetched,
@@ -43,4 +48,5 @@ export {
 	filtersFetching,
 	filtersFetched,
 	filtersFetchingError,
+	setActiveFilter,
 };

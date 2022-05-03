@@ -6,7 +6,9 @@ import HeroesListItem from '../heroesListItem/HeroesListItem';
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-	const { heroes, heroesLoadingStatus } = useSelector(state => state);
+	const { heroes, heroesLoadingStatus, activeFilter } = useSelector(
+		state => state
+	);
 	const { getHeroes, deleteHero } = useHeroServer(useDispatch());
 
 	useEffect(
@@ -21,7 +23,12 @@ const HeroesList = () => {
 		return <h5 className='text-center mt-5'>Ошибка загрузки</h5>;
 	}
 
-	const renderHeroesList = arr => {
+	const filterHeroes = (heroes, filter) =>
+		heroes.filter(({ element }) => element === filter);
+
+	const renderHeroesList = (arr, filter) => {
+		if (filter !== 'all') arr = filterHeroes(arr, filter);
+
 		if (arr.length === 0) {
 			return <h5 className='text-center mt-5'>Героев пока нет</h5>;
 		}
@@ -37,7 +44,7 @@ const HeroesList = () => {
 		});
 	};
 
-	const elements = renderHeroesList(heroes);
+	const elements = renderHeroesList(heroes, activeFilter);
 	return <ul>{elements}</ul>;
 };
 

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import useHeroServer from '../../services/HeroServer';
 import Spinner from '../spinner/Spinner';
 
@@ -22,47 +22,45 @@ const HeroesAddForm = () => {
 		setElement('');
 	};
 
-	const options = useCallback(
-		(options, status) => {
-			if (status === 'loading') return <Spinner />;
-			if (status === 'error')
-				return <h5 className='text-center mt-5'>Ошибка загрузки</h5>;
+	const options = (options, status) => {
+		if (status === 'loading') return <Spinner />;
+		if (status === 'error')
+			return <h5 className='text-center mt-5'>Ошибка загрузки</h5>;
 
-			let content;
-			return (
-				<>
-					<label htmlFor='element' className='form-label'>
-						Выбрать элемент героя
-					</label>
+		let content;
+		return (
+			<>
+				<label htmlFor='element' className='form-label'>
+					Выбрать элемент героя
+				</label>
 
-					<select
-						required
-						className='form-select'
-						id='element'
-						name='element'
-						onChange={e => setElement(e.target.value)}
-						value={element}
-					>
-						{options.map(({ label, name }, i) => {
-							content = label;
-							if (name === 'all') content = 'Я владею элементом...';
-							return (
-								<option
-									key={i}
-									value={name}
-									// onClick={e => setElement(e.target.value)}
-								>
-									{content}
-								</option>
-							);
-						})}
-					</select>
-				</>
-			);
-		},
-		[filters, filtersLoadingStatus, element]
-	);
+				<select
+					required
+					className='form-select'
+					id='element'
+					name='element'
+					onChange={e => setElement(e.target.value)}
+					value={element}
+				>
+					{options.map(({ label, name }, i) => {
+						content = label;
+						if (name === 'all') content = 'Я владею элементом...';
+						return (
+							<option
+								key={i}
+								value={name}
+								// onClick={e => setElement(e.target.value)}
+							>
+								{content}
+							</option>
+						);
+					})}
+				</select>
+			</>
+		);
+	};
 
+	// eslint-disable-next-line
 	useEffect(getFilters, []);
 
 	return (

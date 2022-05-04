@@ -1,48 +1,38 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { sortHeroes } from '../../services/functions';
 import {
-	HEROES_FETCHING,
-	HEROES_FETCHED,
-	HEROES_FETCHING_ERROR,
-	DELETE_HERO,
-	CREATE_HERO,
-} from './actionsTypes';
+	heroesFetching,
+	heroesFetched,
+	heroesFetchingError,
+	createHero,
+	deleteHero,
+} from './actions';
 
 const initialState = {
 	heroes: [],
 	heroesLoadingStatus: 'idle',
 };
 
-const heroesReducer = (state = initialState, { type, payload }) => {
-	switch (type) {
-		case HEROES_FETCHING:
-			return {
-				...state,
-				heroesLoadingStatus: 'loading',
-			};
-		case HEROES_FETCHED:
-			return {
-				...state,
-				heroes: payload,
-				heroesLoadingStatus: 'idle',
-			};
-		case HEROES_FETCHING_ERROR:
-			return {
-				...state,
-				heroesLoadingStatus: 'error',
-			};
-		case DELETE_HERO:
-			return {
-				...state,
-				heroes: state.heroes.filter(({ id }) => id !== payload),
-			};
-		case CREATE_HERO:
-			return {
-				...state,
-				heroes: sortHeroes([...state.heroes, payload]),
-			};
-		default:
-			return state;
-	}
-};
+const heroesReducer = createReducer(initialState, builder => {
+	builder
+		.addCase(heroesFetching, state => {
+			state.heroesLoadingStatus = 'loading';
+		})
+		.addCase(heroesFetched, (state, action) => {
+			state.heroes = action.payload;
+			state.heroesLoadingStatus = 'idle';
+		})
+		.addCase(heroesFetchingError, state => {
+			state.heroesLoadingStatus = 'error';
+		})
+		.addCase(deleteHero, (state, action) => {
+			state.heroes = state.heroes.filter(({ id }) => id !== action.payload);
+		})
+		.addCase(createHero, (state, action) => ({
+			...state,
+			heroes: sortHeroes([...state.heroes, action.payload]),
+		}))
+		.addDefaultCase(() => {});
+});
 
 export default heroesReducer;

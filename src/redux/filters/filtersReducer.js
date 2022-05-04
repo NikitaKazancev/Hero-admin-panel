@@ -1,9 +1,10 @@
+import { createReducer } from '@reduxjs/toolkit';
 import {
-	FILTERS_FETCHED,
-	FILTERS_FETCHING,
-	FILTERS_FETCHING_ERROR,
-	SET_ACTIVE_FILTER,
-} from './actionsTypes';
+	filtersFetching,
+	filtersFetched,
+	filtersFetchingError,
+	setActiveFilter,
+} from './actions';
 
 const initialState = {
 	filters: [],
@@ -11,32 +12,25 @@ const initialState = {
 	activeFilter: 'all',
 };
 
-const filtersReducer = (state = initialState, { type, payload }) => {
-	switch (type) {
-		case FILTERS_FETCHING:
-			return {
-				...state,
-				filtersLoadingStatus: 'loading',
-			};
-		case FILTERS_FETCHED:
-			return {
-				...state,
-				filters: payload,
-				filtersLoadingStatus: 'idle',
-			};
-		case FILTERS_FETCHING_ERROR:
-			return {
-				...state,
-				filtersLoadingStatus: 'error',
-			};
-		case SET_ACTIVE_FILTER:
-			return {
-				...state,
-				activeFilter: payload,
-			};
-		default:
-			return state;
-	}
-};
+const filtersReducer = createReducer(
+	initialState,
+	{
+		[filtersFetching]: state => {
+			state.filtersLoadingStatus = 'loading';
+		},
+		[filtersFetched]: (state, action) => {
+			state.filtersLoadingStatus = 'idle';
+			state.filters = action.payload;
+		},
+		[filtersFetchingError]: state => {
+			state.filtersLoadingStatus = 'error';
+		},
+		[setActiveFilter]: (state, action) => {
+			state.activeFilter = action.payload;
+		},
+	},
+	[],
+	state => state
+);
 
 export default filtersReducer;

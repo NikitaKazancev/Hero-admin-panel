@@ -1,5 +1,5 @@
 import { useHttp } from '../hooks/http.hook';
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from '@reduxjs/toolkit';
 import {
 	heroesFetched,
 	heroesFetchingError,
@@ -32,7 +32,7 @@ const useHeroServer = dispatch => {
 	};
 
 	const createHero = hero => {
-		const data = { ...hero, id: uuidv4() };
+		const data = { ...hero, id: nanoid() };
 		dispatch(createHeroAction(data));
 		request(`${baseUrl}heroes`, 'POST', data);
 	};

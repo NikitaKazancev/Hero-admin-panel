@@ -1,4 +1,11 @@
 import { sortHeroes } from '../../services/functions';
+import {
+	HEROES_FETCHING,
+	HEROES_FETCHED,
+	HEROES_FETCHING_ERROR,
+	DELETE_HERO,
+	CREATE_HERO,
+} from './actionsTypes';
 
 const initialState = {
 	heroes: [],
@@ -7,28 +14,28 @@ const initialState = {
 
 const heroesReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
-		case 'HEROES_FETCHING':
+		case HEROES_FETCHING:
 			return {
 				...state,
 				heroesLoadingStatus: 'loading',
 			};
-		case 'HEROES_FETCHED':
+		case HEROES_FETCHED:
 			return {
 				...state,
 				heroes: payload,
 				heroesLoadingStatus: 'idle',
 			};
-		case 'HEROES_FETCHING_ERROR':
+		case HEROES_FETCHING_ERROR:
 			return {
 				...state,
 				heroesLoadingStatus: 'error',
 			};
-		case 'DELETE_HERO':
+		case DELETE_HERO:
 			return {
 				...state,
 				heroes: state.heroes.filter(({ id }) => id !== payload),
 			};
-		case 'CREATE_HERO':
+		case CREATE_HERO:
 			return {
 				...state,
 				heroes: sortHeroes([...state.heroes, payload]),

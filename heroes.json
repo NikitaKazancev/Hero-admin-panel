@@ -1,49 +1,49 @@
 {
-	"heroes": [
-		{
-			"id": 2,
-			"name": "Неизвестный герой",
-			"description": "Скрывающийся в тени",
-			"element": "wind"
-		},
-		{
-			"id": 3,
-			"name": "Морской герой",
-			"description": "Как аквамен, но не из DC",
-			"element": "water"
-		},
-		{
-			"name": "Первый герой",
-			"description": "Первый герой в рейтинге!",
-			"element": "fire",
-			"id": "5ea39b8e-c243-4c63-bdca-eb173bb4773a"
-		}
-	],
-	"filters": [
-		{
-			"name": "all",
-			"label": "Все",
-			"styleType": "outline-dark"
-		},
-		{
-			"name": "fire",
-			"label": "Огонь",
-			"styleType": "danger"
-		},
-		{
-			"name": "water",
-			"label": "Вода",
-			"styleType": "primary"
-		},
-		{
-			"name": "wind",
-			"label": "Ветер",
-			"styleType": "success"
-		},
-		{
-			"name": "earth",
-			"label": "Земля",
-			"styleType": "secondary"
-		}
-	]
+  "heroes": [
+    {
+      "id": 2,
+      "name": "Неизвестный герой",
+      "description": "Скрывающийся в тени",
+      "element": "wind"
+    },
+    {
+      "id": 3,
+      "name": "Морской герой",
+      "description": "Как аквамен, но не из DC",
+      "element": "water"
+    },
+    {
+      "name": "Первый герой",
+      "description": "Первый герой в рейтинге!",
+      "element": "fire",
+      "id": "5ea39b8e-c243-4c63-bdca-eb173bb4773a"
+    }
+  ],
+  "filters": [
+    {
+      "name": "all",
+      "label": "Все",
+      "styleType": "outline-dark"
+    },
+    {
+      "name": "fire",
+      "label": "Огонь",
+      "styleType": "danger"
+    },
+    {
+      "name": "water",
+      "label": "Вода",
+      "styleType": "primary"
+    },
+    {
+      "name": "wind",
+      "label": "Ветер",
+      "styleType": "success"
+    },
+    {
+      "name": "earth",
+      "label": "Земля",
+      "styleType": "secondary"
+    }
+  ]
 }

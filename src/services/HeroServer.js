@@ -6,10 +6,12 @@ import {
 	heroesFetching,
 	deleteHero as deleteHeroAction,
 	createHero as createHeroAction,
+} from '../redux/heroes/actions';
+import {
 	filtersFetched,
 	filtersFetching,
 	filtersFetchingError,
-} from '../redux/actions';
+} from '../redux/filters/actions';
 import { sortHeroes } from './functions';
 
 const useHeroServer = dispatch => {
@@ -18,10 +20,10 @@ const useHeroServer = dispatch => {
 	const { request } = useHttp();
 
 	const getHeroes = () => {
-		dispatch(heroesFetching());
+		dispatch(heroesFetching);
 		request(`${baseUrl}heroes`)
 			.then(heroes => dispatch(heroesFetched(sortHeroes(heroes))))
-			.catch(() => dispatch(heroesFetchingError()));
+			.catch(() => dispatch(heroesFetchingError));
 	};
 
 	const deleteHero = id => {
@@ -36,10 +38,10 @@ const useHeroServer = dispatch => {
 	};
 
 	const getFilters = () => {
-		dispatch(filtersFetching());
+		dispatch(filtersFetching);
 		request(`${baseUrl}filters`)
 			.then(filters => dispatch(filtersFetched(filters)))
-			.catch(() => dispatch(filtersFetchingError()));
+			.catch(() => dispatch(filtersFetchingError));
 	};
 
 	return { getHeroes, deleteHero, createHero, getFilters };

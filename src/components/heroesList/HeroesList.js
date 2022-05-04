@@ -2,17 +2,22 @@ import useHeroServer from '../../services/HeroServer';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { createSelector } from 'reselect';
 
 import HeroesListItem from '../heroesListItem/HeroesListItem';
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-	const heroes = useSelector(({ heroesReducer, filtersReducer }) => {
-		if (filtersReducer.activeFilter === 'all') return heroesReducer.heroes;
-		return heroesReducer.heroes.filter(
-			hero => hero.element === filtersReducer.activeFilter
-		);
-	});
+	const heroesSelector = createSelector(
+		state => state.heroesReducer.heroes,
+		state => state.filtersReducer.activeFilter,
+		(heroes, activeFilter) => {
+			if (activeFilter === 'all') return heroes;
+			return heroes.filter(hero => hero.element === activeFilter);
+		}
+	);
+
+	const heroes = useSelector(heroesSelector);
 	const heroesLoadingStatus = useSelector(
 		state => state.heroesReducer.heroesLoadingStatus
 	);

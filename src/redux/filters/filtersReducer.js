@@ -1,3 +1,10 @@
+import {
+	FILTERS_FETCHED,
+	FILTERS_FETCHING,
+	FILTERS_FETCHING_ERROR,
+	SET_ACTIVE_FILTER,
+} from './actionsTypes';
+
 const initialState = {
 	filters: [],
 	filtersLoadingStatus: 'idle',
@@ -6,23 +13,23 @@ const initialState = {
 
 const filtersReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
-		case 'FILTERS_FETCHING':
+		case FILTERS_FETCHING:
 			return {
 				...state,
 				filtersLoadingStatus: 'loading',
 			};
-		case 'FILTERS_FETCHED':
+		case FILTERS_FETCHED:
 			return {
 				...state,
 				filters: payload,
 				filtersLoadingStatus: 'idle',
 			};
-		case 'FILTERS_FETCHING_ERROR':
+		case FILTERS_FETCHING_ERROR:
 			return {
 				...state,
 				filtersLoadingStatus: 'error',
 			};
-		case 'SET_ACTIVE_FILTER':
+		case SET_ACTIVE_FILTER:
 			return {
 				...state,
 				activeFilter: payload,

@@ -1,34 +1,34 @@
-import useHeroServer from '../../services/HeroServer';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { createSelector } from '@reduxjs/toolkit';
+import { useGetHeroesQuery, useDeleteHeroMutation } from '../../api/heroesApi';
 
 import HeroesListItem from '../heroesListItem/HeroesListItem';
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-	const heroesSelector = createSelector(
-		state => state.heroes.heroes,
-		state => state.filters.activeFilter,
-		(heroes, activeFilter) => {
+	const {
+		data: heroes = [],
+		isError,
+		isFetching,
+		isLoading,
+		error,
+	} = useGetHeroesQuery();
+	const [deleteHero] = useDeleteHeroMutation();
+	const activeFilter = useSelector(state => state.filters.activeFilter);
+
+	const filteredHeroes = useCallback(
+		heroes => {
 			if (activeFilter === 'all') return heroes;
 			return heroes.filter(hero => hero.element === activeFilter);
-		}
+		},
+		[activeFilter]
 	);
 
-	const heroes = useSelector(heroesSelector);
-	const heroesLoadingStatus = useSelector(
-		state => state.heroes.heroesLoadingStatus
-	);
-
-	const { getHeroes, deleteHero } = useHeroServer(useDispatch());
-
-	useEffect(getHeroes, []);
-
-	if (heroesLoadingStatus === 'loading') {
+	if (isLoading || isFetching) {
 		return <Spinner />;
-	} else if (heroesLoadingStatus === 'error') {
+	} else if (isError) {
+		console.log(error);
 		return <h5 className='text-center mt-5'>Ошибка загрузки</h5>;
 	}
 
@@ -56,7 +56,7 @@ const HeroesList = () => {
 		});
 	};
 
-	const elements = renderHeroesList(heroes);
+	const elements = renderHeroesList(filteredHeroes(heroes));
 	return <TransitionGroup component='ul'>{elements}</TransitionGroup>;
 };
 

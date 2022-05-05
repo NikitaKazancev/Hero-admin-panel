@@ -1,13 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
-import useHeroServer from '../../services/HeroServer';
+import { useState } from 'react';
 import Spinner from '../spinner/Spinner';
+import { useCreateHeroMutation } from '../../api/heroesApi';
+import { useGetFiltersQuery } from '../../api/filtersApi';
 
 const HeroesAddForm = () => {
-	const { createHero, getFilters } = useHeroServer(useDispatch());
-	const { filters, filtersLoadingStatus } = useSelector(
-		state => state.filters
-	);
+	const [createHero] = useCreateHeroMutation();
+	const {
+		data: filters = [],
+		isLoading,
+		isError,
+		error,
+	} = useGetFiltersQuery();
 
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
@@ -15,17 +18,19 @@ const HeroesAddForm = () => {
 
 	const onSubmit = e => {
 		e.preventDefault();
-		createHero({ name, description, element });
+		createHero({ name, description, element }).unwrap();
 
 		setName('');
 		setDescription('');
 		setElement('');
 	};
 
-	const options = (options, status) => {
-		if (status === 'loading') return <Spinner />;
-		if (status === 'error')
+	const options = elements => {
+		if (isLoading) return <Spinner />;
+		if (isError) {
+			console.log(error);
 			return <h5 className='text-center mt-5'>Ошибка загрузки</h5>;
+		}
 
 		let content;
 		return (
@@ -42,14 +47,14 @@ const HeroesAddForm = () => {
 					onChange={e => setElement(e.target.value)}
 					value={element}
 				>
-					{options.map(({ label, name }, i) => {
+					{elements.map(({ label, name }, i) => {
 						content = label;
 						if (name === 'all') content = 'Я владею элементом...';
 						return (
 							<option
 								key={i}
 								value={name}
-								// onClick={e => setElement(e.target.value)}
+								onClick={e => setElement(e.target.value)}
 							>
 								{content}
 							</option>
@@ -59,9 +64,6 @@ const HeroesAddForm = () => {
 			</>
 		);
 	};
-
-	// eslint-disable-next-line
-	useEffect(getFilters, []);
 
 	return (
 		<form className='border p-4 shadow-lg rounded' onSubmit={onSubmit}>
@@ -97,7 +99,7 @@ const HeroesAddForm = () => {
 				/>
 			</div>
 
-			<div className='mb-3'>{options(filters, filtersLoadingStatus)}</div>
+			<div className='mb-3'>{options(filters)}</div>
 
 			<button type='submit' className='btn btn-primary'>
 				Создать

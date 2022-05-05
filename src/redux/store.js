@@ -1,5 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import heroes from './heroes';
+import {
+	reducerPath as rpHeroes,
+	reducer as rHeroes,
+	middleware as mHeroes,
+} from '../api/heroesApi';
+import {
+	reducerPath as rpFilters,
+	reducer as rFilters,
+	middleware as mFilters,
+} from '../api/filtersApi';
 import filters from './filters';
 
 const stringMiddleware = () => next => action => {
@@ -8,9 +17,9 @@ const stringMiddleware = () => next => action => {
 };
 
 const store = configureStore({
-	reducer: { heroes, filters },
+	reducer: { filters, [rpHeroes]: rHeroes, [rpFilters]: rFilters },
 	middleware: getDefaultMiddleware =>
-		getDefaultMiddleware().concat(stringMiddleware),
+		getDefaultMiddleware().concat(stringMiddleware, mHeroes, mFilters),
 	devTools: process.env.NODE_ENV !== 'production',
 });
 

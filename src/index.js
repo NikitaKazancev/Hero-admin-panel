@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import './redux/filters';
 
 import App from './components/app/App';
 import store from './redux/store';

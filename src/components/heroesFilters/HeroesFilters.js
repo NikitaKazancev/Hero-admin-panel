@@ -1,15 +1,12 @@
-import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import useHeroServer from '../../services/HeroServer';
 import { setActiveFilter } from '../../redux/filters';
+import { useGetFiltersQuery } from '../../api/filtersApi';
 
 const HeroesFilters = () => {
-	const { filters, activeFilter } = useSelector(state => state.filters);
+	const activeFilter = useSelector(state => state.filters.activeFilter);
 	const dispatch = useDispatch();
-	const { getFilters } = useHeroServer(dispatch);
 
-	// eslint-disable-next-line
-	useEffect(getFilters, []);
+	const { data: filters = [] } = useGetFiltersQuery();
 
 	return (
 		<div className='card shadow-lg mt-4'>

@@ -6,12 +6,12 @@ import {
 	heroesFetching,
 	deleteHero as deleteHeroAction,
 	createHero as createHeroAction,
-} from '../redux/heroes/actions';
+} from '../redux/heroes';
 import {
 	filtersFetched,
 	filtersFetching,
 	filtersFetchingError,
-} from '../redux/filters/actions';
+} from '../redux/filters';
 import { sortHeroes } from './functions';
 
 const useHeroServer = dispatch => {

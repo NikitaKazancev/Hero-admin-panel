@@ -6,7 +6,7 @@ import Spinner from '../spinner/Spinner';
 const HeroesAddForm = () => {
 	const { createHero, getFilters } = useHeroServer(useDispatch());
 	const { filters, filtersLoadingStatus } = useSelector(
-		state => state.filtersReducer
+		state => state.filters
 	);
 
 	const [name, setName] = useState('');

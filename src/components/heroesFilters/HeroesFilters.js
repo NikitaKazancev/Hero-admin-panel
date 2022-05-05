@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useHeroServer from '../../services/HeroServer';
-import { setActiveFilter } from '../../redux/filters/actions';
+import { setActiveFilter } from '../../redux/filters';
 
 const HeroesFilters = () => {
-	const { filters, activeFilter } = useSelector(state => state.filtersReducer);
+	const { filters, activeFilter } = useSelector(state => state.filters);
 	const dispatch = useDispatch();
 	const { getFilters } = useHeroServer(dispatch);
 
